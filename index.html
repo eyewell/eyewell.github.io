@@ -16,11 +16,65 @@
 <div id='map'></div>
 <script>
 mapboxgl.accessToken = 'pk.eyJ1IjoiZXlld2VsbCIsImEiOiJjanAwaTY5d3ozNTRsM3FwaWd1YWJha2pqIn0.wsQUsCgBIev51QzZgXJOUg';
-const map = new mapboxgl.Map({
-  container: 'map',
+//const map = new mapboxgl.Map({
+/*
+var beforeMap = new mapboxgl.Map({
+  container: 'before',
   style: 'mapbox://styles/eyewell/cjp1rqx1z0r9u2rrxgbjnfqtm',
   center: [-121.678083, 39.754008],
   zoom: 11.7
+});
+*/
+  
+</script>
+  
+//begin split screen code
+  
+<style>
+body {
+    overflow: hidden;
+}
+
+body * {
+   -webkit-touch-callout: none;
+     -webkit-user-select: none;
+        -moz-user-select: none;
+         -ms-user-select: none;
+             user-select: none;
+}
+
+.map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+}
+</style>
+  
+<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-compare/v0.1.0/mapbox-gl-compare.js'></script>
+<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-compare/v0.1.0/mapbox-gl-compare.css' type='text/css' />
+
+<div id='before' class='map'></div>
+<div id='after' class='map'></div>
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoiZXlld2VsbCIsImEiOiJjanAwaTY5d3ozNTRsM3FwaWd1YWJha2pqIn0.wsQUsCgBIev51QzZgXJOUg';
+var beforeMap = new mapboxgl.Map({
+  container: 'before',
+  style: 'mapbox://styles/eyewell/cjp1rqx1z0r9u2rrxgbjnfqtm',
+  center: [-121.678083, 39.754008],
+  zoom: 11.7
+});
+
+var afterMap = new mapboxgl.Map({
+    container: 'after',
+    style: 'mapbox://styles/mapbox/dark-v9',
+  center: [-121.678083, 39.754008],
+  zoom: 11.7
+});
+
+var map = new mapboxgl.Compare(beforeMap, afterMap, {
+    // Set this to enable comparing two maps by mouse movement:
+    // mousemove: true
 });
 </script>
 
