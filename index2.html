@@ -13,36 +13,12 @@
 </head>
 <body>
 
-<div id='map'></div>
-<script>
-mapboxgl.accessToken = 'pk.eyJ1IjoiZXlld2VsbCIsImEiOiJjanAwaTY5d3ozNTRsM3FwaWd1YWJha2pqIn0.wsQUsCgBIev51QzZgXJOUg';
-//const map = new mapboxgl.Map({
-/*
-var beforeMap = new mapboxgl.Map({
-  container: 'before',
-  style: 'mapbox://styles/eyewell/cjp1rqx1z0r9u2rrxgbjnfqtm',
-  center: [-121.678083, 39.754008],
-  zoom: 11.7
-});
-*/
+
   
-</script>
-  
-//begin split screen code
-  
-<style>
+  <style>
 body {
     overflow: hidden;
 }
-
-body * {
-   -webkit-touch-callout: none;
-     -webkit-user-select: none;
-        -moz-user-select: none;
-         -ms-user-select: none;
-             user-select: none;
-}
-
 .map {
     position: absolute;
     top: 0;
@@ -50,33 +26,151 @@ body * {
     width: 100%;
 }
 </style>
-  
 <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-compare/v0.1.0/mapbox-gl-compare.js'></script>
 <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-compare/v0.1.0/mapbox-gl-compare.css' type='text/css' />
 
+<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.1.1/mapbox-gl-geocoder.min.js'></script>
+<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.1.1/mapbox-gl-geocoder.css' type='text/css' />
+<style>
+#geocoder-container > div {
+    min-width:50%;
+    margin-left:25%;
+}
+.button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 5px 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    position: absolute;
+    bottom: 30px;
+    z-index: 99;
+}
+.mapboxgl-ctrl-compass {
+display: none !important;
+}
+</style>
+
+  
+  
 <div id='before' class='map'></div>
 <div id='after' class='map'></div>
 <script>
 mapboxgl.accessToken = 'pk.eyJ1IjoiZXlld2VsbCIsImEiOiJjanAwaTY5d3ozNTRsM3FwaWd1YWJha2pqIn0.wsQUsCgBIev51QzZgXJOUg';
+
 var beforeMap = new mapboxgl.Map({
-  container: 'before',
-  style: 'mapbox://styles/eyewell/cjp1rqx1z0r9u2rrxgbjnfqtm',
+    container: 'before',
+    style: 'mapbox://styles/mapbox/satellite-streets-v9',
   center: [-121.678083, 39.754008],
   zoom: 11.7
-});
+);
 
 var afterMap = new mapboxgl.Map({
     container: 'after',
-    style: 'mapbox://styles/mapbox/dark-v9',
+    style: 'mapbox://styles/eyewell/cjp1rqx1z0r9u2rrxgbjnfqtm'',
   center: [-121.678083, 39.754008],
   zoom: 11.7
 });
 
-var map = new mapboxgl.Compare(beforeMap, afterMap, {
+var afterMap = new mapboxgl.Compare(beforeMap, afterMap, {
     // Set this to enable comparing two maps by mouse movement:
     // mousemove: true
 });
+  
+var geocoder = new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken
+});
+  
+beforeMap.addControl(geocoder);
+// After the map style has loaded on the page, add a source layer and default
+// styling for a single point.
+beforeMap.on('load', function() {
+    beforeMap.addSource('single-point', {
+        "type": "geojson",
+        "data": {
+            "type": "FeatureCollection",
+            "features": []
+        }
+    });
+    beforeMap.addLayer({
+        "id": "point",
+        "source": "single-point",
+        "type": "circle",
+        "paint": {
+            "circle-radius": 10,
+            "circle-color": "#007cbf"
+        }
+    });
+    // Listen for the `geocoder.input` event that is triggered when a user
+    // makes a selection and add a symbol that matches the result.
+    geocoder.on('result', function(ev) {
+        beforeMap.getSource('single-point').setData(ev.result.geometry);
+    });
+});
+beforeMap.addControl(new mapboxgl.NavigationControl(), 'top-left');
+// Disable map rotation using right click + drag
+beforeMap.dragRotate.disable();
+// Disable map rotation using touch rotation gesture
+beforeMap.touchZoomRotate.disableRotation();
+function myFunction () {
+    var shareCenter = beforeMap.getCenter(),
+        shareZoom = beforeMap.getZoom();
+    var shareLat = shareCenter.lat,
+        shareLng = shareCenter.lng;
+    window.open("https://eyewell.github.io/index.html#" + shareZoom + "/" + shareLat+ "/" + shareLng, "_blank");
+}
 </script>
+  
+<style>
+.legend {
+  background-color: #fff;
+  border-radius: 3px;
+  bottom: 30px;
+  width: 150px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  font: 12px/12px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  padding: 5px;
+  position: absolute;
+  right: 10px;
+  z-index: 1;
+}
+.legend h4 {
+  margin: 0 0 0px;
+}
+.legend h5 {
+  margin: 0 0 0px;
+}
+.legend p {
+  margin-left: 30px;
+  position: absolute;
+  display: block;
+  top: 0;
+}
+.legend div {
+  position: relative;
+}
+.legend div span {
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 5px;
+  opacity: 0.8;
+  background-color: #d49a66;
+}
+</style>
+
+<div id='legend' class='legend'>
+  <details open>
+  <summary><h4>Fire aftermath - 10/18</h4></summary>
+  <h5><br>
+  Click/tap triangle to shrink this box<br><br>
+
+  
+  Source: Overview News // DigitalGlobe 2017</h5>
+</details>
+</div>
 
 </body>
 </html>
