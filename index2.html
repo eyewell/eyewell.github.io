@@ -1,24 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset='utf-8' />
-  <title>Display a map</title>
-  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.js'></script>
-  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.css' rel='stylesheet' />
-  <style>
-    body { margin:0; padding:0; }
-    #map { position:absolute; top:0; bottom:0; width:100%; }
-  </style>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-30901313-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-30901313-1');
+</script>
+
+    <meta charset='utf-8' />
+
+
+    <title>Satellite map imagery with compare mode</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.41.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.41.0/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+    </style>
 </head>
 <body>
 
 
-  
-  <style>
+
+<style>
 body {
     overflow: hidden;
 }
+
 .map {
     position: absolute;
     top: 0;
@@ -36,6 +49,7 @@ body {
     min-width:50%;
     margin-left:25%;
 }
+
 .button {
     background-color: #4CAF50; /* Green */
     border: none;
@@ -49,42 +63,46 @@ body {
     bottom: 30px;
     z-index: 99;
 }
+
 .mapboxgl-ctrl-compass {
 display: none !important;
 }
+
 </style>
 
-  
-  
+
 <div id='before' class='map'></div>
 <div id='after' class='map'></div>
+<button class='button' onclick="myFunction()">Make share URL</button>
+
 <script>
 mapboxgl.accessToken = 'pk.eyJ1IjoiZXlld2VsbCIsImEiOiJjanAwaTY5d3ozNTRsM3FwaWd1YWJha2pqIn0.wsQUsCgBIev51QzZgXJOUg';
 
 var beforeMap = new mapboxgl.Map({
     container: 'before',
     style: 'mapbox://styles/mapbox/satellite-streets-v9',
-  center: [-121.678083, 39.754008],
-  zoom: 11.7
-);
+    center: [-122.701165, 38.477614],
+    zoom: 16,
+});
 
 var afterMap = new mapboxgl.Map({
     container: 'after',
     style: 'mapbox://styles/eyewell/cjp1rqx1z0r9u2rrxgbjnfqtm',
-  center: [-121.678083, 39.754008],
-  zoom: 11.7
+    center: [-122.701165, 38.477614],
+    zoom: 16,
 });
 
 var afterMap = new mapboxgl.Compare(beforeMap, afterMap, {
     // Set this to enable comparing two maps by mouse movement:
     // mousemove: true
 });
-  
+
 var geocoder = new MapboxGeocoder({
     accessToken: mapboxgl.accessToken
 });
-  
+
 beforeMap.addControl(geocoder);
+
 // After the map style has loaded on the page, add a source layer and default
 // styling for a single point.
 beforeMap.on('load', function() {
@@ -95,6 +113,7 @@ beforeMap.on('load', function() {
             "features": []
         }
     });
+
     beforeMap.addLayer({
         "id": "point",
         "source": "single-point",
@@ -104,26 +123,32 @@ beforeMap.on('load', function() {
             "circle-color": "#007cbf"
         }
     });
+
     // Listen for the `geocoder.input` event that is triggered when a user
     // makes a selection and add a symbol that matches the result.
     geocoder.on('result', function(ev) {
         beforeMap.getSource('single-point').setData(ev.result.geometry);
     });
 });
+
 beforeMap.addControl(new mapboxgl.NavigationControl(), 'top-left');
+
 // Disable map rotation using right click + drag
 beforeMap.dragRotate.disable();
+
 // Disable map rotation using touch rotation gesture
 beforeMap.touchZoomRotate.disableRotation();
+
 function myFunction () {
     var shareCenter = beforeMap.getCenter(),
         shareZoom = beforeMap.getZoom();
     var shareLat = shareCenter.lat,
         shareLng = shareCenter.lng;
-    window.open("https://eyewell.github.io/index.html#" + shareZoom + "/" + shareLat+ "/" + shareLng, "_blank");
+
+    window.open("https://eyewell.github.io/index2.html#" + shareZoom + "/" + shareLat+ "/" + shareLng, "_blank");
 }
 </script>
-  
+
 <style>
 .legend {
   background-color: #fff;
@@ -137,21 +162,26 @@ function myFunction () {
   right: 10px;
   z-index: 1;
 }
+
 .legend h4 {
   margin: 0 0 0px;
 }
+
 .legend h5 {
   margin: 0 0 0px;
 }
+
 .legend p {
   margin-left: 30px;
   position: absolute;
   display: block;
   top: 0;
 }
+
 .legend div {
   position: relative;
 }
+
 .legend div span {
   border-radius: 50%;
   display: inline-block;
@@ -171,6 +201,7 @@ function myFunction () {
   Source: Overview News // DigitalGlobe 2017</h5>
 </details>
 </div>
+
 
 </body>
 </html>
