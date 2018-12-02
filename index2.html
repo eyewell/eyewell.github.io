@@ -81,15 +81,15 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiZXlld2VsbCIsImEiOiJjanAwaTY5d3ozNTRsM3FwaWd1Y
 var beforeMap = new mapboxgl.Map({
     container: 'before',
     style: 'mapbox://styles/mapbox/satellite-streets-v9',
-    center: [-122.701165, 38.477614],
-    zoom: 16,
+  center: [-121.678083, 39.754008],
+  zoom: 11.7 // starting zoom
 });
 
 var afterMap = new mapboxgl.Map({
     container: 'after',
     style: 'mapbox://styles/eyewell/cjp1rqx1z0r9u2rrxgbjnfqtm',
-    center: [-122.701165, 38.477614],
-    zoom: 16,
+  center: [-121.678083, 39.754008],
+  zoom: 11.7 // starting zoom
 });
 
 var afterMap = new mapboxgl.Compare(beforeMap, afterMap, {
