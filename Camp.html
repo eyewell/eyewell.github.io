@@ -1,20 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-30901313-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'UA-30901313-1');
-</script>
 
     <meta charset='utf-8' />
 
 
-    <title>Satellite map imagery with compare mode</title>
+    <title>Camp Fire: Satellite map imagery with compare mode</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.41.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.41.0/mapbox-gl.css' rel='stylesheet' />
@@ -22,6 +14,18 @@
         body { margin:0; padding:0; }
         #map { position:absolute; top:0; bottom:0; width:100%; }
     </style>
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-48396913-2"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-48396913-2');
+    </script>
+    
+    
 </head>
 <body>
 
@@ -81,15 +85,15 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiZXlld2VsbCIsImEiOiJjanAwaTY5d3ozNTRsM3FwaWd1Y
 var beforeMap = new mapboxgl.Map({
     container: 'before',
     style: 'mapbox://styles/mapbox/satellite-streets-v9',
-  center: [-121.678083, 39.754008],
-  zoom: 11.7 // starting zoom
+  center: [-121.590578, 39.783624],
+  zoom: 16.70 // starting zoom
 });
 
 var afterMap = new mapboxgl.Map({
     container: 'after',
     style: 'mapbox://styles/eyewell/cjp1rqx1z0r9u2rrxgbjnfqtm',
-  center: [-121.678083, 39.754008],
-  zoom: 11.7 // starting zoom
+  center: [-121.590578, 39.783624],
+  zoom: 16.70 // starting zoom
 });
 
 var afterMap = new mapboxgl.Compare(beforeMap, afterMap, {
@@ -145,7 +149,7 @@ function myFunction () {
     var shareLat = shareCenter.lat,
         shareLng = shareCenter.lng;
 
-    window.open("https://eyewell.github.io/index2.html#" + shareZoom + "/" + shareLat+ "/" + shareLng, "_blank");
+    window.open("https://eyewell.github.io/Camp.html#" + shareZoom + "/" + shareLat+ "/" + shareLng, "_blank");
 }
 </script>
 
@@ -198,7 +202,8 @@ function myFunction () {
   Click/tap triangle to shrink this box<br><br>
 
   
-  Source: Overview News // DigitalGlobe 2017</h5>
+  
+  Source: Overview News // DigitalGlobe 2018</h5>
 </details>
 </div>
 
